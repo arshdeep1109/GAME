@@ -46,6 +46,13 @@ namespace Assignment5
             int numberOfSpacesToMove = Convert.ToInt16(Console.ReadLine());
             this.MovePlayer(numberOfSpacesToMove, aPlayer);
             aPlayer.DisplayStatus();
+            // #TODO: IF the current owner == NULL, present user with option to purchase
+            // else charge then rent
+            // if they try to purchase and do not have sufficient funds, back out of the transaction
+            // if The System tries to charge them RENT, and they have an INSUFFICIENT BALANCE, 
+            //  A. Transfer all their money to the property's owner
+            //  B. Inform them they are BANKRUPT.
+            //  C. Remove that Player Object from the Array List of Players
         }
 
         public void MovePlayer(int HowManySpaces, Player aPlayer)
