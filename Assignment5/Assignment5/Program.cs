@@ -29,6 +29,7 @@ namespace Assignment5
         }
         public void Run()
         {
+            GameBoard.SetupMyGameBoard();
             this.CreatePlayers();
             int n = -1;
             while (true)
@@ -43,18 +44,20 @@ namespace Assignment5
         {
             Console.WriteLine("Move how many spaces?");
             int numberOfSpacesToMove = Convert.ToInt16(Console.ReadLine());
-            aPlayer.CurrentAddress = MovePlayer(numberOfSpacesToMove, aPlayer);
+            this.MovePlayer(numberOfSpacesToMove, aPlayer);
+            aPlayer.DisplayStatus();
         }
 
-        public Property MovePlayer(int HowManySpaces, Player aPlayer)
+        public void MovePlayer(int HowManySpaces, Player aPlayer)
         {
             // get a handle on the ARRAY INDEX NUMBER of the CURRENT ADDRESS for the player
-            aPlayer.CurrentAddress
+            int ARRAY_INDEX_CURRENT_ADDRESS = GameBoard.FindLocationOfProperty(aPlayer.CurrentAddress);
             // ADD to that the number of spaces they want to move
+            int NewPlayerAddress_IndexLocation = ARRAY_INDEX_CURRENT_ADDRESS + HowManySpaces;
             // figure out what PROPERTY corrsponds to that new index
+            aPlayer.CurrentAddress = (Property)GameBoard.MyGameBoard[NewPlayerAddress_IndexLocation];
             // ASSIGN the player's current address to that new property object reference
 
-            return new Property();
         }
     }
 
@@ -87,7 +90,7 @@ namespace Assignment5
 
         public void DisplayStatus()
         {
-            // print out current balance and list of properties owned
+            Console.WriteLine("{0}", this.CurrentBalance);
         }
     }
 
@@ -97,15 +100,15 @@ namespace Assignment5
         double PropertyValue;
         public Property()
         {
-            this.PropertyValue = r1.NextDouble();
+            this.PropertyValue = 100 + 700 * r1.NextDouble();
         }
     }
 
     class GameBoard
     {
-        public static ArrayList MyGameBoard;
+        public static ArrayList MyGameBoard = new ArrayList();
 
-        public void SetupMyGameBoard()
+        public static void SetupMyGameBoard()
         {
             // create 100 Properties on The Board
             for (int i = 0; i < 100; i++)
@@ -114,7 +117,7 @@ namespace Assignment5
             }
         }
 
-        public int FindLocationOfProperty(Property PropertyToLookFor)
+        public static int FindLocationOfProperty(Property PropertyToLookFor)
         {
             int IndexInArray = 0;
             foreach (Property aProperty in MyGameBoard)
